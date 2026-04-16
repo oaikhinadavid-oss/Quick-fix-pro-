@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickFix Lagos | Professional Mobile Mechanic Directory</title>
+    
+    <!-- External Assets -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #002147; /* Deep Professional Navy */
+            --accent: #FFBF00;  /* Premium Amber Gold */
+            --success: #128C7E; /* WhatsApp Green */
+            --danger: #D32F2F;  /* Warning Red */
+            --text: #1A202C;
+            --bg: #F7FAFC;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
+
+        /* Header */
+        header {
+            background: var(--primary);
+            padding: 15px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: white; text-decoration: none; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+        .badge-secure { background: rgba(255,255,255,0.1); color: #fff; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.2); }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 33, 71, 0.85), rgba(0, 33, 71, 0.85)), 
+                        url('https://images.unsplash.com/photo-1486006396193-c71f3088521e?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 6% 60px;
+            text-align: center;
+            color: white;
+        }
+        .hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 15px; letter-spacing: -0.5px; }
+        .hero p { font-size: 1rem; opacity: 0.9; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* Search Bar Design */
+        .search-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            max-width: 550px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .search-card select, .search-card input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            transition: 0.2s;
+        }
+        .search-card select:focus, .search-card input:focus { border-color: var(--primary); }
+
+        /* Content Area */
+        .container { padding: 40px 6%; }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+
+        /* Mechanic Card */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid #EDF2F7;
+            transition: 0.3s;
+            position: relative;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.05); }
+        
+        .verified-tag { color: #3182CE; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .name { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+        .location { font-size: 0.9rem; color: #718096; display: flex; align-items: center; gap: 5px; margin-bottom: 15px; }
+        
+        .service-badge { background: #EBF8FF; color: #2B6CB0; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 15px; }
+
+        /* Scam Warning */
+        .warning-box {
+            background: #FFF5F5;
+            border: 1px solid #FED7D7;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .warning-box i { color: var(--danger); font-size: 1rem; }
+        .warning-box p { font-size: 0.75rem; color: #9B2C2C; font-weight: 700; line-height: 1.4; }
+
+        /* Pricing Section */
+        .price-container {
+            background: #F7FAFC;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .price-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; color: #4A5568; }
+        .total-row { display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 800; color: var(--danger); border-top: 1px solid #E2E8F0; padding-top: 8px; margin-top: 8px; }
+
+        /* Buttons */
+        .btn-unlock {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        .btn-unlock:hover { background: #001530; }
+
+        /* Unlocked Section */
+        .unlocked-area { display: none; text-align: center; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .phone-number { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 15px 0; letter-spacing: 1px; }
+        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-final { padding: 14px; border-radius: 10px; text-decoration: none; color: white; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        
+        .footer-note { font-size: 0.7rem; color: var(--danger); font-weight: 800; margin-top: 15px; text-transform: uppercase; }
+
+        footer { text-align: center; padding: 40px; color: #718096; font-size: 0.8rem; border-top: 1px solid #E2E8F0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo">QUICK<span>FIX</span></a>
+    <div class="badge-secure"><i class="fas fa-shield-alt"></i> SECURE DIRECTORY</div>
+</header>
+
+<div class="hero">
+    <h1>Lagos' Most Trusted Mobile Mechanics</h1>
+    <p>Professional car repairs delivered to your doorstep. Verified experts, transparent pricing, and secure bookings.</p>
+    
+    <div class="search-card">
+        <select id="areaSelect" onchange="runSearch()">
+            <option value="all">--- Select Lagos Area ---</option>
+            <option value="Agege">Agege</option>
+            <option value="Ajah">Ajah</option>
+            <option value="Alimosho">Alimosho</option>
+            <option value="Apapa">Apapa</option>
+            <option value="Ikeja">Ikeja</option>
+            <option value="Ikorodu">Ikorodu</option>
+            <option value="Ikoyi">Ikoyi</option>
+            <option value="Lagos Island">Lagos Island</option>
+            <option value="Lekki">Lekki</option>
+            <option value="Maryland">Maryland</option>
+            <option value="Mushin">Mushin</option>
+            <option value="Oshodi">Oshodi</option>
+            <option value="Surulere">Surulere</option>
+            <option value="Victoria Island">Victoria Island (VI)</option>
+            <option value="Yaba">Yaba</option>
+        </select>
+        <input type="text" id="streetInput" placeholder="Search by street or service (e.g. Allen Avenue)..." onkeyup="runSearch()">
+    </div>
+</div>
+
+<div class="container">
+    <div id="status-msg" style="text-align:center; font-weight:600; color:#718096;">Syncing with secure database...</div>
+    <div class="results-grid" id="mechanic-list"></div>
+</div>
+
+<footer>
+    <p>&copy; 2025 QuickFix Technologies Lagos. All mechanics are independently verified.</p>
+</footer>
+
+<script>
+    // 1. PASTE YOUR pk_test_ OR pk_live_ KEY HERE
+    const paystackPublicKey = 'pk_test_PASTE_YOUR_KEY_HERE'; 
+    
+    // 2. YOUR GOOGLE SHEET CSV LINK
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/1wj_SzI7EkcjIeZPhc5X5cPcCXyvMtMl4HIL5Ic-xkKQ/export?format=csv';
+
+    let allMechanics = [];
+
+    async function loadData() {
+        try {
+            const response = await fetch(sheetUrl);
+            const text = await response.text();
+            const rows = text.split('\n').filter(r => r.trim() !== "").slice(1);
+            
+            allMechanics = rows.map((row, index) => {
+                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                return {
+                    id: index,
+                    name: cols[0]?.trim() || "",
+                    area: cols[1]?.trim() || "",
+                    phone: cols[2]?.trim() || "",
+                    service: cols[3]?.trim() || "",
+                    address: cols[4]?.trim() || "",
+                    price: parseInt(cols[7]?.replace(/[^0-9]/g, '')) || 0
+                };
+            });
+            document.getElementById('status-msg').style.display = "none";
+            renderCards(allMechanics);
+        } catch (e) { console.log("Data Sync Error"); }
+    }
+
+    function renderCards(data) {
+        const list = document.getElementById('mechanic-list');
+        list.innerHTML = "";
+        
+        data.forEach(m => {
+            // Paystack Math (15% Commission + Fees + VAT)
+            const targetCommission = Math.round(m.price * 0.15);
+            let grossAmount = (targetCommission < 2500) ? Math.ceil(targetCommission / 0.983875) : Math.ceil((targetCommission + 107.5) / 0.983875);
+            const processingFee = grossAmount - targetCommission;
+            const balanceToMechanic = m.price - targetCommission;
+
+            list.innerHTML += `
+                <div class="card">
+                    <span class="verified-tag"><i class="fas fa-check-circle"></i> Verified Expert</span>
+                    <div class="name">${m.name}</div>
+                    <div class="location"><i class="fas fa-map-marker-alt"></i> ${m.area} • ${m.address}</div>
+                    <div class="service-badge">${m.service}</div>
+                    
+                    <div class="warning-box">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>SCAM ALERT: Do not pay cash for bookings. Pay the fee below securely to unlock contact info.</p>
+                    </div>
+
+                    <div class="price-container" id="price-box-${m.id}">
+                        <div class="price-row"><span>Service Estimate</span> <span>₦${m.price.toLocaleString()}</span></div>
+                        <div class="price-row"><span>Booking Fee</span> <span>₦${targetCommission.toLocaleString()}</span></div>
+                        <div class="price-row"><span>VAT & Processing</span> <span>₦${processingFee.toLocaleString()}</span></div>
+                        <div class="total-row"><span>Pay to Unlock</span> <span>₦${grossAmount.toLocaleString()}</span></div>
+                        <button class="btn-unlock" style="margin-top:15px;" onclick="payWithPaystack('${m.name}', ${grossAmount}, '${m.id}', '${m.phone}')">
+                            <i class="fas fa-lock"></i> Unlock Contact
+                        </button>
+                    </div>
+
+                    <div class="unlocked-area" id="unlocked-${m.id}">
+                        <div style="color:var(--success); font-weight:700; font-size:0.9rem;">UNLOCKED SUCCESSFULLY</div>
+                        <div class="phone-number">${m.phone}</div>
+                        <div class="action-btns">
+                            <a href="tel:${m.phone}" class="btn-final" style="background:var(--primary)"><i class="fas fa-phone"></i> Call</a>
+                            <a href="https://wa.me/234${m.phone.substring(1)}" class="btn-final" style="background:var(--success)"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                        </div>
+                        <div class="footer-note">Pay balance of ₦${balanceToMechanic.toLocaleString()} ONLY after car is fixed</div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function payWithPaystack(mechName, amount, id, phone) {
+        let handler = PaystackPop.setup({
+            key: paystackPublicKey,
+            email: "customer@quickfix.ng",
+            amount: amount * 100,
+            currency: "NGN",
+            callback: function(response) {
+                document.getElementById('price-box-' + id).style.display = 'none';
+                document.getElementById('unlocked-' + id).style.display = 'block';
+            }
+        });
+        handler.openIframe();
+    }
+
+    function runSearch() {
+        const area = document.getElementById('areaSelect').value.toLowerCase();
+        const street = document.getElementById('streetInput').value.toLowerCase();
+        const filtered = allMechanics.filter(m => (area === 'all' || m.area.toLowerCase() === area) && (m.address.toLowerCase().includes(street) || m.name.toLowerCase().includes(street) || m.service.toLowerCase().includes(street)));
+        renderCards(filtered);
+    }
+
+    loadData();
+</script>
+
+</body>
+</html>
